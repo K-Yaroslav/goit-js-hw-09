@@ -7,6 +7,7 @@ const refs = {
   hoursValue: document.querySelector('span[data-hours]'),
   minutesValue: document.querySelector('span[data-minutes]'),
   secondsValue: document.querySelector('span[data-seconds]'),
+  inputValue: document.querySelector('#datetime-picker'),
 };
 
 const btnStart = document.querySelector('button[data-start]');
@@ -37,10 +38,12 @@ const resalt = flatpickr('input#datetime-picker', options);
 function onStart() {
   const deadline = resalt.selectedDates[0].getTime();
   btnStart.disabled = true;
+  refs.inputValue.disabled = true;
   const intervalID = setInterval(() => {
     const currentTime = Date.now();
     if (deadline <= currentTime) {
       clearInterval(intervalID);
+      refs.inputValue.disabled = false;
       return;
     }
     const ms = deadline - currentTime;
@@ -75,3 +78,5 @@ function countdownTimer({ days, hours, minutes, seconds }) {
   refs.minutesValue.textContent = `${minutes}`;
   refs.secondsValue.textContent = `${seconds}`;
 }
+
+// console.log(refs.inputValue);
